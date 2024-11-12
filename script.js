@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var likedClass = likedPosts.indexOf(postId) > -1 ? 'liked' : '';
         return "\n            <button class=\"like-button ".concat(likedClass, "\" data-post-id=\"").concat(postId, "\">\n                <div class=\"like-wrapper\">\n                    <div class=\"ripple\"></div>\n                    <svg class=\"heart\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\">\n                        <path d=\"M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z\"></path>\n                    </svg>\n                    <div class=\"particles\" style=\"--total-particles: 6\">\n                        <div class=\"particle\" style=\"--i: 1; --color: #7642F0\"></div>\n                        <div class=\"particle\" style=\"--i: 2; --color: #AFD27F\"></div>\n                        <div class=\"particle\" style=\"--i: 3; --color: #DE8F4F\"></div>\n                        <div class=\"particle\" style=\"--i: 4; --color: #D0516B\"></div>\n                        <div class=\"particle\" style=\"--i: 5; --color: #5686F2\"></div>\n                        <div class=\"particle\" style=\"--i: 6; --color: #D53EF3\"></div>\n                    </div>\n                </div>\n            </button>\n        ");
     };
-    // Use Promises without async/await
+    
     var fetchRandomPost = function () {
         var randomId = Math.floor(Math.random() * 100) + 1;
         fetch("https://jsonplaceholder.typicode.com/posts/".concat(randomId))
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             isAnimating = true;
             var postId = parseInt(button.dataset.postId || '0');
-            // Toggle liked state using an array
+        
             var index = likedPosts.indexOf(postId);
             if (index > -1) {
                 likedPosts.splice(index, 1);
@@ -60,9 +60,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 likedPosts.push(postId);
                 button.classList.add('liked');
             }
-            // Trigger animation
+            // animation
             button.focus();
-            // Save liked state to localStorage
+            // Save liked state to local storage!
             localStorage.setItem('likedPosts', JSON.stringify(likedPosts));
             setTimeout(function () {
                 button.blur();
@@ -70,7 +70,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 1000);
         });
     };
-    // Load liked posts from localStorage on page load
     var loadLikedPosts = function () {
         try {
             var saved = localStorage.getItem('likedPosts');
@@ -83,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error loading liked posts:', error);
         }
     };
-    // Modal functionality
+    // Modal 
     var openModal = function () {
         if (loginModal)
             loginModal.style.display = 'block';
@@ -92,22 +91,21 @@ document.addEventListener('DOMContentLoaded', function () {
         if (loginModal)
             loginModal.style.display = 'none';
     };
-    // Handle login form submission
+    
     var handleLogin = function (event) {
-        event.preventDefault(); // Prevent the form from submitting
+        event.preventDefault(); // Preventform from submitting
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
-        // Check for valid credentials
+        
         if (username === 'asaf' && password === '12345') {
             console.log('Logged in successfully!');
-            closeModal(); // Close the modal after login
-            alert('Logged in successfully!'); // Notify the user
+            closeModal(); 
+            alert('Logged in successfully!'); 
         }
         else {
-            alert('Invalid username or password. Please try again.'); // Notify the user of invalid credentials
+            alert('Invalid username or password. Please try again.'); 
         }
     };
-    // Event listeners
     loadLikedPosts();
     getPostBtn === null || getPostBtn === void 0 ? void 0 : getPostBtn.addEventListener('click', fetchRandomPost);
     if (loginBtn) {
@@ -119,7 +117,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (loginForm) {
         loginForm.addEventListener('submit', handleLogin);
     }
-    // Close modal when clicking outside of it
     window.addEventListener('click', function (event) {
         if (event.target === loginModal) {
             closeModal();
