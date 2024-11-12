@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', (): void => {
     const loginBtn: HTMLButtonElement | null = document.getElementById('loginBtn') as HTMLButtonElement;
     const loginForm: HTMLFormElement | null = document.getElementById('loginForm') as HTMLFormElement;
 
-    // Store liked posts using an array
+    // Store liked posts using array
     const likedPosts: number[] = [];
     const removedPosts: number[] = []; // Array to keep track of removed posts
 
@@ -93,8 +93,7 @@ document.addEventListener('DOMContentLoaded', (): void => {
             isAnimating = true;
 
             const postId = parseInt((button as HTMLElement).dataset.postId || '0');
-            
-            // Toggle liked state using an array
+
             const index = likedPosts.indexOf(postId);
             if (index > -1) {
                 likedPosts.splice(index, 1);
@@ -104,10 +103,8 @@ document.addEventListener('DOMContentLoaded', (): void => {
                 button.classList.add('liked');
             }
 
-            // Trigger animation
             (button as HTMLButtonElement).focus();
 
-            // Save liked state to localStorage
             localStorage.setItem('likedPosts', JSON.stringify(likedPosts));
 
             setTimeout(() => {
@@ -120,10 +117,7 @@ document.addEventListener('DOMContentLoaded', (): void => {
     const setupRemoveButton = (button: Element, postId: number, postElement: HTMLDivElement): void => {
         button.addEventListener('click', () => {
             if (confirm('Are you sure you want to remove this post?')) {
-                // Remove the post from the DOM
                 postElement.remove();
-
-                // Store the removed post in localStorage
                 removedPosts.push(postId);
                 localStorage.setItem('removedPosts', JSON.stringify(removedPosts));
 
@@ -131,27 +125,24 @@ document.addEventListener('DOMContentLoaded', (): void => {
             }
         });
     };
-
-    // Load liked and removed posts from localStorage on page load
     const loadPosts = (): void => {
         try {
             const savedLiked = localStorage.getItem('likedPosts');
             if (savedLiked) {
                 const savedPosts: number[] = JSON.parse(savedLiked);
-                likedPosts.splice(0, likedPosts.length, ...savedPosts); // Reset likedPosts and add saved posts
+                likedPosts.splice(0, likedPosts.length, ...savedPosts); 
             }
 
             const savedRemoved = localStorage.getItem('removedPosts');
             if (savedRemoved) {
                 const savedRemovedPosts: number[] = JSON.parse(savedRemoved);
-                removedPosts.splice(0, removedPosts.length, ...savedRemovedPosts); // Reset removedPosts and add saved posts
+                removedPosts.splice(0, removedPosts.length, ...savedRemovedPosts); 
             }
         } catch (error) {
             console.error('Error loading posts:', error);
         }
     };
 
-    // Modal functionality
     const openModal = (): void => {
         if (loginModal) loginModal.style.display = 'block';
     };
@@ -160,13 +151,11 @@ document.addEventListener('DOMContentLoaded', (): void => {
         if (loginModal) loginModal.style.display = 'none';
     };
 
-    // Handle login form submission
     const handleLogin = (event: Event): void => {
         event.preventDefault(); // Prevent the form from submitting
         const username = (document.getElementById('username') as HTMLInputElement).value;
         const password = (document.getElementById('password') as HTMLInputElement).value;
 
-        // Check for valid credentials
         if (username === 'asaf' && password === '12345') {
             console.log('Logged in successfully!');
             closeModal(); // Close the modal after login
