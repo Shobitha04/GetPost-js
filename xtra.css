@@ -1,0 +1,272 @@
+:root {
+    --color-heart: #fc75c4;
+    --easing: cubic-bezier(.7,0,.3,1);
+    --duration: .5s;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgb(237, 207, 228);
+}
+
+#getPostBtn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#getPostBtn:hover {
+    background-color: #45a049;
+}
+
+.post {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    transition: background-color 0.5s, transform 0.3s;
+}
+
+.post.highlight {
+    background-color: #e3f2fd;
+    transform: scale(1.05);
+}
+
+.post h2 {
+    color: #333;
+    margin-top: 0;
+    padding-right: 40px;
+}
+
+.post p {
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Like Button Styles */
+.like-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    appearance: none;
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.like-wrapper {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.like-wrapper > * {
+    margin: auto;
+    grid-area: 1 / 1;
+}
+
+.heart {
+    display: block;
+    width: 24px;
+    height: 24px;
+    transform-origin: center 80%;
+}
+
+/* ... (previous CSS remains the same) ... */
+
+/* Update the heart styles to handle liked state */
+.heart > path {
+    stroke: var(--color-heart);
+    stroke-width: 2;
+    fill: transparent;
+    transition: fill var(--duration) var(--easing);
+}
+
+/* Add styles for liked state */
+.like-button.liked .heart > path {
+    fill: var(--color-heart);
+}
+
+/* Update focus styles to work with liked state */
+.like-button:focus .heart > path,
+.like-button.liked .heart > path {
+    fill: var(--color-heart);
+}
+
+/* Keep other animations working */
+.like-button:focus .heart {
+    animation: heart-bounce var(--duration) var(--easing);
+}
+
+/* Reset only the animation on focus, not the liked state */
+.like-button:focus {
+    pointer-events: none;
+    cursor: normal;
+}
+
+/* Make sure liked buttons still look clickable */
+.like-button.liked {
+    cursor: pointer;
+}
+
+/* Particles Animation */
+.particles {
+    width: 1px;
+    height: 1px;
+}
+
+.particle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: .1em;
+    width: .1em;
+    border-radius: .05em;
+    background-color: var(--color);
+    --percentage: calc( var(--i) / var(--total-particles) );
+    --Θ: calc( var(--percentage) * 1turn );
+    transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0) scaleY(0);
+    transition: all var(--duration) var(--easing);
+}
+
+.like-button:focus .particle {
+    animation: particles-out calc(var(--duration) * 1.2) var(--easing) forwards;
+}
+
+/* Ripple Effect */
+.ripple {
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.ripple:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0.4em solid var(--color-heart);
+    border-radius: inherit;
+    transform: scale(0);
+}
+
+.like-button:focus .ripple:before {
+    animation: ripple-out var(--duration) var(--easing);
+}
+
+/* Animations */
+@keyframes heart-bounce {
+    40% { transform: scale(0.7); }
+    0%, 80%, 100% { transform: scale(1); }
+}
+
+@keyframes particles-out {
+    50% { height: .3em; }
+    50%, 60% {
+        height: .3em;
+        transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0.8em) scale(1);
+    }
+    60% { height: .2em; }
+    100% {
+        transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(1em) scale(0);
+    }
+}
+
+@keyframes ripple-out {
+    from { transform: scale(0); }
+    to { transform: scale(5); }
+}
+
+/* Reset animation on click */
+.like-button:focus {
+    pointer-events: none;
+    cursor: normal;
+}
+
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#loginBtn {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#loginBtn:hover {
+    background-color: #45a049;
+}
+
+#forgotPasswordBtn {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#forgotPasswordBtn:hover {
+    background-color: #e53935;
+}
+
+
+
